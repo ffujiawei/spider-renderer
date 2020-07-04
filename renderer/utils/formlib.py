@@ -30,7 +30,8 @@ def extract_string(table) -> str:
 
 # 按行按列提取表格文本放入元组列表
 def extract_list(table) -> list:
-    '''Extract the table text by row and column and put it into the tuple list.'''
+    '''Extract the table text by row and column 
+    and put it into the tuple list.'''
     rows = table.xpath('tr | */tr')
     form = []
     for row in rows:
@@ -41,6 +42,14 @@ def extract_list(table) -> list:
         if res:
             form.append(tuple(res))
     return form
+
+
+# 判断是否是每行列数相同的表格
+def is_equal(form):
+    '''Determine whether it is a table with the 
+    same number of columns in each row.'''
+    return all(len(form[0]) == len(
+        form[pos]) for pos in range(1, len(form)))
 
 
 # 打包全部操作
