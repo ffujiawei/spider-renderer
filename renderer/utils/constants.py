@@ -17,9 +17,12 @@ PROXIES = {
 
 TIMEOUT = 36
 
+# 可处理的状态码
+STATUS_CODES = [200, 521]
+
 # 网页常见空白符号
 WHITESPACE = ('\xa0', '\u3000', '\x0c', '&nbsp;', ' ')
 
 # 格式化时间
-DATETIME_12 = r'%Y-%m-%d %I:%M:%S %p'  #  2020-07-02 08:17:54 AM
-DATETIME_24 = r'%Y-%m-%d %H:%M:%S'  #  2020-07-02 21:29:33
+DATETIME_12 = r'%Y-%m-%d %I:%M:%S %p'  # 2020-07-02 08:17:54 AM
+DATETIME_24 = r'%Y-%m-%d %H:%M:%S'  # 2020-07-02 21:29:33
