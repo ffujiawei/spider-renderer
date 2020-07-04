@@ -4,7 +4,7 @@
 
 '''
 python setup.py sdist
-pip install dist/spider-renderer-0.1.1.tar.gz
+pip install dist/spider-renderer-0.1.3.tar.gz
 python setup.py bdist_wheel
 pip install twine
 twine upload dist/*
@@ -28,7 +28,7 @@ with open(os.path.join(cwd, 'README.md'), encoding='utf-8') as f:
 setup(
     name='spider-renderer',
     packages=['renderer', 'renderer.utils'], # `renderer.utils`: `renderer/utils`
-    version='0.1.1',
+    version='0.1.3',
     license='Apache 2.0',
     author='White Turing',
     author_email='fu.jiawei@outlook.com',
@@ -39,7 +39,7 @@ setup(
     keywords=['spider', 'renderer', 'scrapy'],
     classifiers=[
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: Apache License',
+        'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
