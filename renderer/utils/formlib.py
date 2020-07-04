@@ -1,18 +1,18 @@
-'''
-    解析网页表格
-'''
+'''Parsing HTML forms.'''
 
 import re
 import warnings
 
 from lxml import html
 
+from .htmlib import rm_ws
 from .httplib import retry_get
-from .quick import contains, replace_ws
+from .quick import contains
 
 
 # 判断表格是否包含相关数据
 def is_table(tables, within, without):
+    '''Determine whether the table contains relevant data.'''
     is_tab, table = False, None
     for table in tables:
         string = re.sub(r'\s', '', table.text_content())
@@ -24,20 +24,20 @@ def is_table(tables, within, without):
 
 # 提取表格全部文本
 def extract_string(table) -> str:
-    string = re.sub(r'[\r\n\t]+', '\n', table.text_content())
-    return replace_ws(string)
+    '''Extract all text in the table.'''
+    return rm_ws(table.text_content())
 
 
 # 按行按列提取表格文本放入元组列表
 def extract_list(table) -> list:
+    '''Extract the table text by row and column and put it into the tuple list.'''
     rows = table.xpath('tr | */tr')
     form = []
     for row in rows:
         cols = row.xpath('td | th')
         res = []
         for col in cols:
-            s = re.sub(r'\s', '', col.text_content())
-            res.append(replace_ws(s))
+            res.append(rm_ws(col.text_content(), ''))
         if res:
             form.append(tuple(res))
     return form
