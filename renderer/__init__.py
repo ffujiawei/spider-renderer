@@ -5,7 +5,7 @@ from datetime import datetime
 
 from jinja2 import Environment, FileSystemLoader
 
-from .utils import replace_all, replace_ws, retry_get
+from .utils import replace_all, replace_ws, retry_get, retry_post
 from .utils.constants import DATETIME_12, WHITESPACE
 
 
