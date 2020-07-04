@@ -33,7 +33,7 @@ def genspider(home_url, templatefile, dst, spider, **kwargs):
 
     # 清理标题中的干扰字符
     clear_chars = kwargs.pop('clear_chars', WHITESPACE)
-    source = re.sub(r'\s', '', replace_all(source, clear_chars))
+    source = re.sub(r'\s', '', replace_all(source, clear_chars + WHITESPACE))
 
     # 仅供参考，建议自行修改
     kwargs.update({
