@@ -7,7 +7,7 @@ from time import sleep, time
 
 import requests
 
-from .constants import HEADERS, TIMEOUT
+from .constants import HEADERS, STATUS_CODES, TIMEOUT
 
 # 设置日志
 logging.basicConfig(
@@ -19,59 +19,49 @@ logging.basicConfig(
 requests.urllib3.disable_warnings()
 
 
-# 发生错误时再次请求，默认重试 3 次
-def retry_get(url, m=3, headers=HEADERS, proxies=None, timeout=TIMEOUT):
-    c = 1
+# 发生错误时再次请求
+def retry_request(method, url, retries=3, **kwargs):
+    retry = 1
+    kwargs.update({
+        'headers': kwargs.get('headers', HEADERS),
+        'timeout': kwargs.get('timeout', TIMEOUT),
+        'verify': kwargs.get('verify', False),
+    })
     while True:
         try:
-            resp = requests.get(url, headers=headers, proxies=proxies,
-                                timeout=timeout, verify=False)
-            if resp.status_code == 200:
+            resp = requests.request(method, url, **kwargs)
+            if resp.status_code in STATUS_CODES:
                 return resp
-            if c >= m:
+            if retry >= retries:
                 logging.warning(f"[{resp.status_code}]: {url}")
                 return False
-            c += 1
+            retry += 1
         except Exception as error:
-            if c >= m:
+            if retry >= retries:
                 logging.error(f"{error}: {url}")
                 return False
-            c += 1
-            # 发生延时、最大请求数量等错误时休眠若干秒
-            sleep(3)
+            retry += 1
+            sleep(3)  # 发生错误时休眠若干秒
 
 
-def retry_post(url, data=None, m=3, headers=HEADERS, proxies=None, timeout=TIMEOUT):
-    c = 1
-    while True:
-        try:
-            resp = requests.post(url, data=data, headers=headers, proxies=proxies,
-                                 timeout=timeout, verify=False)
-            if resp.status_code == 200:
-                return resp
-            if c >= m:
-                logging.warning(f"[{resp.status_code}]: {url}")
-                return False
-            c += 1
-        except Exception as error:
-            if c >= m:
-                logging.error(f"{error}: {url}")
-                return False
-            c += 1
-            # 发生延时、最大请求数量等错误时休眠若干秒
-            sleep(3)
+def retry_get(url, retries=3, **kwargs):
+    return retry_request('GET', url, retries=retries, **kwargs)
 
 
-# 下载文件，默认重试 8 次
-def download(src, dst, headers=HEADERS, proxies=None, timeout=TIMEOUT):
-    resp = retry_get(src, 8, headers, proxies, timeout)
+def retry_post(url, data=None, retries=3, **kwargs):
+    return retry_request('POST', url, data=data, retries=retries, **kwargs)
+
+
+# 下载文件
+def download(src, dst, retries=8, **kwargs):
+    resp = retry_get(src, retries, **kwargs)
     if resp:
         with open(dst, 'wb') as f:
             f.write(resp.content)
         logging.info(src)
 
 
-# 将请求数据写入文件，默认将网页标题作为文件名
+# 将请求数据写入文件
 def save_html(response, fn='default.html'):
     if not fn.endswith('.html'):
         fn = '%s.html' % fn
