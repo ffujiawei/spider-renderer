@@ -3,7 +3,8 @@
 '''
 
 from .constants import DATETIME_12, DATETIME_24, HEADERS, WHITESPACE
-from .formlib import extract_list, extract_string, is_table, parse_form
+from .formlib import (extract_list, extract_string, is_equal, is_table,
+                      parse_form)
 from .htmlib import rm_tags, rm_ws
 from .httplib import download, retry_get, retry_post, save_html
 from .money import chinese_to_arabic

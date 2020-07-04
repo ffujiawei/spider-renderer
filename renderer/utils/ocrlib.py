@@ -8,10 +8,10 @@ from .httplib import HEADERS, retry_get, retry_post
 
 
 class GeneralOcr(object):
-    '''通用文字识别，而非精确识别接口'''
+    '''百度云通用文字识别'''
 
-    __client_id = 'yIDSsYZD1uk1OcdOmuaSDYsZ'
-    __client_secret = '5rqZhYFgs2VQcLXRNMNeQSWIeqexVajc'
+    __client_id = 'z9ILc5DopWA5rm4NuAou64GY'
+    __client_secret = 'fAHDaKibDPPN8G80qTTZXxjcBA6yHYUs'
 
     def __init__(self, client_id=None, client_secret=None, access_token=None):
         self.client_id = client_id or self.__client_id
