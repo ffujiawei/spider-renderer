@@ -35,3 +35,11 @@ def split_path(path):
     ph, filext = os.path.split(path)  # 分割为上一级路径和包含后缀的文件名
     fil, ext = os.path.splitext(filext)  # 分割为文件名和后缀
     return ph, fil, ext
+
+
+# 偶然发现了另一种方法
+def split_path2(path):
+    '''Split the path/url into upper-level path/url, file name, and extension.'''
+    from pathlib import Path
+    ph = Path(path)
+    return ph.parent, ph.stem, ph.suffix
