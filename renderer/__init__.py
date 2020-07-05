@@ -40,7 +40,7 @@ def genspider(home_url, templatefile, dst, spider, **kwargs):
         'datetime': datetime.now().strftime(DATETIME_12),
         'spider': spider,
         'source': source,
-        'region': replace_all(source, list(kwargs.get('city', '')))[:3] if spider[5] != '0' else '',
+        # 'region': replace_all(source, list(kwargs.get('city', '')))[:3] if spider[5] != '0' else '',
         'home_url': home_url,
         'author': kwargs.pop('author', 'White Turing'),
     })
