@@ -2,6 +2,7 @@
 
 - [模块化爬虫模板系统设想提出的前因后果](doc/blog.md)
 - [解析网页表格的两种方法](doc/form.md)
+- [破解 MD5 签名参数验证](problems/sign/README.md)
 - [移除 HTML 标签获取全部文本的三种方法对比](doc/rmtags.md)
 - [解决必须执行 JS 计算 Cookie 的问题](problems/521/README.md)
 - [记录一种特别的 POST 请求方式](problems/body/README.md)
