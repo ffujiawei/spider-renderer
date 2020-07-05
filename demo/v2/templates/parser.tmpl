@@ -1,0 +1,4 @@
+
+    def parse(self, response):
+        response.string = re.sub('[\r\n\t\v\f]', '', response.text)
+        rows = re.findall(r'''{{regex}}''', response.string)

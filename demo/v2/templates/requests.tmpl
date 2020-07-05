@@ -1,0 +1,6 @@
+    
+    def start_requests(self):
+        url = '{{page_url}}'
+        all_page = self.all_page or 10
+        for page in range(1, all_page):
+            yield scrapy.Request(url % page, callback=self.parse)
