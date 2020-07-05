@@ -3,6 +3,7 @@
 '''
 
 import logging
+from os import makedirs, path
 from time import sleep, time
 
 import requests
@@ -59,6 +60,17 @@ def download(src, dst, retries=8, **kwargs):
         with open(dst, 'wb') as f:
             f.write(resp.content)
         logging.info(src)
+
+
+# 下载文件且以时间戳命名文件
+def download_file(src, folder='.'):
+    '''Download the file and name the file with a timestamp.'''
+    if not path.isdir(folder):
+        makedirs(folder)
+    ext = path.splitext(src)[-1]
+    dst = path.join(folder, f'{int(time())}{ext}')
+    download(src, dst)
+    return dst
 
 
 # 将请求数据写入文件
