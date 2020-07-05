@@ -13,8 +13,9 @@ def rm_ws(string, char='\n'):
     return re.sub(r'\s+', char, replace_ws(string))
 
 
-# 移除指定标签及其内容，同时默认移除其他标签但保留其内容
-def rm_tags(html, tags=USELESS_TAGS, default=True):
+# 移除指定标签及其内容，默认同时移除其他标签
+# 但保留其内容，最后清除或替换多余空白符
+def rm_tags(html, char='', tags=USELESS_TAGS, default=True):
     '''Remove the specified label and its content, 
     while removing other labels but retaining their content.'''
     regex = '|'.join([r'<%s\b.*?</%s>|<%s\s*/>' %
@@ -23,4 +24,4 @@ def rm_tags(html, tags=USELESS_TAGS, default=True):
         regex += r'|</?([^ >/]+).*?>'
     retags = re.compile(regex, re.DOTALL | re.IGNORECASE)
     string = retags.sub('', html)
-    return rm_ws(string)
+    return rm_ws(string, char)
