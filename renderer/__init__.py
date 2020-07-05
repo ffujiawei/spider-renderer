@@ -12,7 +12,7 @@ from .utils.constants import DATETIME_12, WHITESPACE
 
 
 class ModularLoader(FileSystemLoader):
-    
+
     def __init__(self, searchpath, encoding="utf-8", followlinks=False):
         if not isinstance(searchpath, (tuple, set, list)):
             searchpath = [searchpath]
@@ -51,6 +51,10 @@ class ModularLoader(FileSystemLoader):
 
     def include_left(self, templates):
         self.include(templates, left=True)
+
+    def add_block(self, block):
+        self.body += '{%- block bk -%}\n'.replace('bk', block)
+        self.foot = '{%- endblock bk -%}\n'.replace('bk', block) + self.foot
 
     def reset(self):
         self.flag = False
