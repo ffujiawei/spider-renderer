@@ -26,3 +26,12 @@ def replace_all(string, words=tuple(), char='') -> str:
 
 # 清除空格符号
 replace_ws = partial(replace_all, words=WHITESPACE)
+
+
+# 将路径分割为上一级路径、文件名和扩展名
+def split_path(path):
+    '''Split the path/url into upper-level path/url, file name, and extension.'''
+    import os.path
+    ph, filext = os.path.split(path)  # 分割为上一级路径和包含后缀的文件名
+    fil, ext = os.path.splitext(filext)  # 分割为文件名和后缀
+    return ph, fil, ext
