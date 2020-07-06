@@ -33,13 +33,13 @@ class GeneralOcr(object):
         resp = retry_post(general, data=data, headers=HEADERS)
         return resp.json() if resp else ({'words_result': '请求错误'})
 
-    def basic_ocr(self, addr, sep='\n'):
+    def basic_ocr(self, addr, sep='\n', certain=False):
         if addr.startswith('http'):
-            if addr.endswith('png') or addr.endswith('jpg'):
+            if certain or addr.endswith('png') or addr.endswith('jpg'):
                 resp = retry_get(addr)
                 image = resp.content if resp else b''
             else:
-                pass
+                Exception("The link doesn't have a suffix, make sure it's a image.")
         else:
             with open(addr, 'rb') as fp:
                 image = fp.read()
