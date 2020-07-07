@@ -85,4 +85,8 @@ data = 'params=%20%7B%22siteGuid%22%3A%227eb5f7f1-9041-43ad-8e13-8fcb82ea831a%22
 
 问题在于可读性差了点，其实与传入字符串方法无异，同样必须手动设置 `Content-Type` 参数。
 
-​Requests 和 Scrapy 在 POST 的数据处理上，Scrapy 分成了 FromRequest 和 Request 方法，而 Requests 不作特别的区分，两者仅在传入 JSON 数据时有区别，Scrapy 没有针对 JSON 作特殊处理，而 Requests 有专门的 `json` 参数，请求数据是字符串时，Scrapy 传入 `body` 参数即可，这种情况下特别注意 `Content-Type` 参数是必须的，[之前的文章](../body/README.md)，就是这种情况，当时不甚理解。
+​Requests 和 Scrapy 在 POST 的数据处理上，Scrapy 分成了 FromRequest、JsonRequest 和 XmlRpcRequest 方法，而 Requests 不作特别的区分，有专门的 `data`、`file` 和 `json` 参数。请求数据是字符串时，Scrapy 传入 `body` 参数即可，这种情况下特别注意 `Content-Type` 参数可能是必须的，[之前的文章](../body/README.md)，就是这种情况（数据是 JSON 格式），当时不甚理解。
+
+```python
+headers['Content-Type'] = 'application/json;charset=UTF-8'
+```

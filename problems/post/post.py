@@ -33,7 +33,8 @@ response.request.body
 formdata = {"params": '{"siteGuid": "7eb5f7f1-9041-43ad-8e13-8fcb82ea831a", "title": "", "categorynum": "001001", "diqu": "654001", "xmlx": "", "cgfs": "", "pageIndex": 1, "pageSize": 20}'}
 
 formdata = {"params": {"siteGuid": "7eb5f7f1-9041-43ad-8e13-8fcb82ea831a", "title": "", "categorynum": "001001", "diqu": "654001", "xmlx": "", "cgfs": "", "pageIndex": 1, "pageSize": 20}}
-from urllib.parse import urlencode
+from urllib.parse import urlencode, quote
+urlencode(formdata, quote_via=quote)
 urlencode(formdata, doseq=True)
 
 response = retry_post(post_url, data=urlencode(formdata), headers=HEADERS)
