@@ -12,3 +12,7 @@ imgs = re.findall(r'''src=['"](/uploadfile\S+(jpg|png))['"]''', string)
 img, _ = imgs[0]
 ocr = GeneralOcr()
 ocr.basic_ocr(urljoin(url, img))
+
+url = 'http://ztb.panan.gov.cn/fileserver/down?md5=B6B1765B3732F55D48C7449F6D4CEAA3&bucket=2'
+ocr = GeneralOcr()
+ocr.basic_ocr(url, certain=True)
