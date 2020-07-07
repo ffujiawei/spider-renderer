@@ -11,10 +11,14 @@ import requests
 from .constants import HEADERS, STATUS_CODES, TIMEOUT
 
 # 设置日志
-logging.basicConfig(
-    level=logging.WARNING,
-    format='%(levelname)s %(message)s'
-)
+logger = logging.getLogger("httplib")
+handler = logging.StreamHandler()
+# 日志格式
+formatter = logging.Formatter("%(levelname)s %(message)s")
+# 日志级别
+handler.setLevel(logging.WARNING)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 # 禁用SLL证书警告
 requests.urllib3.disable_warnings()
@@ -34,12 +38,12 @@ def retry_request(method, url, retries=3, **kwargs):
             if resp.status_code in STATUS_CODES:
                 return resp
             if retry >= retries:
-                logging.warning(f"[{resp.status_code}]: {url}")
-                return False
+                logger.warning(f"[{resp.status_code}]: {url}")
+                return resp
             retry += 1
         except Exception as error:
             if retry >= retries:
-                logging.error(f"{error}: {url}")
+                logger.error(f"{error}: {url}")
                 return False
             retry += 1
             sleep(3)  # 发生错误时休眠若干秒
@@ -59,7 +63,7 @@ def download(src, dst, retries=8, **kwargs):
     if resp:
         with open(dst, 'wb') as f:
             f.write(resp.content)
-        logging.info(src)
+        logger.info(src)
 
 
 # 下载文件且以时间戳命名文件
