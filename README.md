@@ -8,6 +8,7 @@
 - [记录一种特别的 POST 请求方式](problems/body/README.md)
 - [深入理解 POST 请求数据的处理过程](problems/post/README.md)
 - [解决 VIEWSTATE 类型的网站](problems/viewstate/README.md)
+- [解决 Security Verify 参数“云锁”问题](problems/verify/README.md)
 
 本来打算就写写题目所说的，但是后来我还是决定就全放在这个项目里了，于是这个项目就变成了我一个月实习经历的经验总结。我把我很多工作中自己写的辅助用的函数工具都放到了其中，包括网页表格解析函数、文本处理函数等，另外就是记录了遇到的比较特殊的问题的解决方法。
 
