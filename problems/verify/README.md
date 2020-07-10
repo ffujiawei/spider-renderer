@@ -68,3 +68,44 @@ resp3.content.decode('utf-8')
 ```
 
 OK，搞定！
+
+由于对 Scrapy 的 Cookie 管理机制还不是很清楚，目前处理方法比较笨拙：
+
+```python
+# 字符串转十六进制
+def string_to_hex(string, val=""):
+    for i in range(len(string)):
+        val += hex(ord(string[i]))[2:]
+    return val
+
+location = re.compile(r'''location = "(\S+)"''')
+
+# 计算 Cookie
+def gen_cookie(url):
+    return "; srcurl=%s" % string_to_hex(url)
+
+    custom_settings = {
+        "REDIRECT_ENABLED": True,
+        "COOKIES_ENABLED": True,
+    }
+
+# 省略
+
+    def start_requests(self):
+        yield self.Request(self.url, callback=self.start_requests2)
+
+    def start_requests2(self, response):
+        loc = location.findall(response.text)[0]
+        verify_url = response.urljoin(loc + '313932302c31303830')
+        cookies = response.headers.getlist('Set-Cookie')[0].decode('utf-8') + gen_cookie(response.url)
+        headers = response.request.headers
+        headers['Cookies'] = cookies
+        yield self.Request(verify_url, headers=headers, callback=self.start_requests3)
+
+    def start_requests3(self, response):
+        yield self.Request(self.url, callback=self.parse)
+        url = 'http://www.xjbl.gov.cn/zdlygk/zfcgztb/zbgg1/%d.htm'
+        all_page = self.all_page or 10
+        for page in range(all_page, 0, -1):
+            yield self.Request(url % page, callback=self.parse)
+```

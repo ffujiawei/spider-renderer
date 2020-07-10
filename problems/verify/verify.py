@@ -14,9 +14,10 @@ def string_to_hex(string, val=""):
 def gen_cookie(url):
     return {"srcurl": string_to_hex(url), "path": "/"}
 
+location = re.compile(r'''location = "(\S+)"''')
 
 origin = 'http://www.xjbl.gov.cn/zdlygk/zfcgztb/zbgg1.htm'
-location = re.compile(r'''location = "(\S+)"''')
+origin = 'http://www.xjbl.gov.cn/zdlygk/zfcgztb/zbgg1/%d.htm' % 2
 
 session = requests.session()
 session.headers = HEADERS
